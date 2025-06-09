@@ -23,9 +23,9 @@ def summary_table(df, field_pairs):
     for raw_col, prod_col, match_col in field_pairs:
         rows.append({
             "field": raw_col.replace("raw_", ""),
-            "matches":     (df[match_col] == "match").sum(),
-            "mismatches":  (df[match_col] == "no_match").sum(),
-            "null_in_raw":  df[raw_col].isna().sum(),
+            "matches": (df[match_col] == "match").sum(),
+            "mismatches": (df[match_col] == "no_match").sum(),
+            "null_in_raw": df[raw_col].isna().sum(),
             "null_in_prod": df[prod_col].isna().sum(),
         })
     return pd.DataFrame(rows)
@@ -38,16 +38,16 @@ def main(args):
     raw  = pd.read_csv(args.raw_csv)
     prod = pd.read_csv(args.prod_csv)
 
-    # unify merge-key dtypes
+    #unify merge-key dtypes
     to_string(raw,  cfg["match_keys"])
     to_string(prod, cfg["match_keys"])
 
-    # merge
+    #merge
     merged = pd.merge(
         raw, prod,
-        on        = cfg["match_keys"],
-        suffixes  = ("_raw", "_prod"),
-        how       = "outer"
+        on = cfg["match_keys"],
+        suffixes = ("_raw", "_prod"),
+        how  = "outer"
     )
 
     field_pairs = []
@@ -60,11 +60,11 @@ def main(args):
         else:
             raw_col_name = prod_col_name = mapping
 
-        # columns after merge carry the suffixes
+        #columns after merge carry the suffixes
         raw_col_merged  = f"{raw_col_name}_raw"
         prod_col_merged = f"{prod_col_name}_prod"
 
-        # rename to raw_<label>, prod_<label>
+        #rename to raw_<label>, prod_<label>
         merged.rename(
             columns = {
                 raw_col_merged:  f"raw_{label}",
@@ -73,7 +73,7 @@ def main(args):
             inplace = True,
         )
 
-        # add match column
+        #add match column
         compare_cols(merged, f"raw_{label}", f"prod_{label}", f"{label}_match")
         field_pairs.append((f"raw_{label}", f"prod_{label}", f"{label}_match"))
 
@@ -84,13 +84,13 @@ def main(args):
 
     comp_path = f"{out_dir}/final_comparison.csv"
     merged.to_csv(comp_path, index=False)
-    print(f" Saved comparison CSV → {comp_path}")
+    print(f" Saved comparison CSV to {comp_path}")
 
     if args.summary:
         summary_df = summary_table(merged, field_pairs)
         summary_path = f"{out_dir}/summary_counts.csv"
         summary_df.to_csv(summary_path, index=False)
-        print(f"  Saved summary counts → {summary_path}")
+        print(f"  Saved summary counts to {summary_path}")
 
 # ------------------------ CLI ------------------------------------------------#
 if __name__ == "__main__":
