@@ -1,0 +1,13 @@
+match_keys:
+  - subject_id
+  - document_id
+  - section_extraction_id
+
+fields:
+  payer_name: payer_name
+  plan_name: plan_name
+  group_number: group_number
+  subscriber_id: subscriber_id
+  effective_date_start: effective_date_start
+  effective_date_end: effective_date_end
+  insurance_type: insurance_type
