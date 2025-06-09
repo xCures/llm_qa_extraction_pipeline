@@ -1,0 +1,18 @@
+match_keys:
+  - subject_id
+  - document_id
+  - section_extraction_id
+
+fields:
+  procedure_name: procedure_name
+  status: status
+  discontinuation_reason: discontinuation_reason
+  start_date: start_date
+  end_date: end_date
+  anatomic_site: anatomic_site
+  fractions_planned: fractions_planned
+  fractions_completed: fractions_completed
+  total_dose_planned: total_dose_planned
+  total_dose_completed: total_dose_completed
+  dosage_units: dosage_units
+  description: description
