@@ -67,7 +67,7 @@ The `Makefile` provides these targets:
   EXTRACTOR=medication \
   SUBJECTS=subject_ids.csv \
   CONFIG=configs/medication_compare.yaml
-  CREATED=YYYY-MM-DD` # ← optional date filter
+  CREATED=YYYY-MM-DD #optional date filter`
 
 ### Sandbox
 `make raw \
