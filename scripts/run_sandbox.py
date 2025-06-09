@@ -7,7 +7,6 @@ import boto3
 from dotenv import load_dotenv
 from datetime import datetime
 
-# ----- Helpers ---------------------------------------------------------------------- #
 def assume_role(role_arn: str, session_name: str):
     sts = boto3.client("sts")
     return sts.assume_role(
@@ -55,7 +54,7 @@ def explode_response(df: pd.DataFrame, col: str = "response") -> pd.DataFrame:
             print(f"  Row {idx}: {e}")
     return pd.json_normalize(records)
 
-# -------- Main ------------------------------------------------------------------- #
+# -------- main logic ------------------------------------------------------------------- #
 load_dotenv()
 
 def main():
@@ -66,8 +65,8 @@ def main():
     args = ap.parse_args()
 
     region        = os.getenv("AWS_REGION", "us-west-2")
-    workgroup     = os.getenv("REDSHIFT_WORKGROUP")           # prod-data-warehouse-workgroup
-    database      = os.getenv("REDSHIFT_DATABASE")            # xcures
+    workgroup     = os.getenv("REDSHIFT_WORKGROUP")           
+    database      = os.getenv("REDSHIFT_DATABASE")       
     role_arn      = os.getenv("REDSHIFT_ROLE_ARN")
     session_name  = os.getenv("REDSHIFT_SESSION_NAME", "sandbox-query")
 
