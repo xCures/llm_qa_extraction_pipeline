@@ -41,7 +41,7 @@ Each config file defines:
 
 You can use `scripts/generate_yaml_config.py` to create a YAML configuration file for comparing specific fields between the sandbox and production extractions. 
 
-Usage:
+Example Usage:
 `python3 scripts/generate_yaml_config.py \
   --output configs/payer_compare.yaml \
   --fields payer_name plan_name group_number subscriber_id`
