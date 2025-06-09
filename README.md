@@ -66,25 +66,25 @@ The `Makefile` provides these targets:
 `make run \
   EXTRACTOR=medication \
   SUBJECTS=subject_ids.csv \
-  CONFIG=configs/medication_compare.yaml
+  CONFIG=configs/medication_compare.yaml \
   CREATED=YYYY-MM-DD #optional date filter`
 
 ### Sandbox
 `make raw \
   EXTRACTOR=diagnosis \
-  SUBJECTS=subject_ids.csv
-  CREATED=YYYY-MM-DD` # ← optional date filter
+  SUBJECTS=subject_ids.csv \
+  CREATED=YYYY-MM-DD #optional date filter`
 
 ### Production
 `make prod \
   EXTRACTOR=diagnosis \
-  SUBJECTS=subject_ids.csv
-  CREATED=YYYY-MM-DD` # ← optional date filter
+  SUBJECTS=subject_ids.csv \
+  CREATED=YYYY-MM-DD` #optional date filter`
 
 ### Comparison
 `make compare \
   EXTRACTOR=diagnosis \
-  CONFIG=configs/diagnosis_compare.yaml
-  CREATED=YYYY-MM-DD` # ← optional date filter
+  CONFIG=configs/diagnosis_compare.yaml \
+  CREATED=YYYY-MM-DD #optional date filter`
 
 All outputs are saved under `output/YYYY-MM-DD/<extractor>/`
