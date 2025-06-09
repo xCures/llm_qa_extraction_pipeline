@@ -10,4 +10,29 @@ Workflow that pulls sandbox LLM clinical extractions, retrieves downstream FHIR 
 It supports any extractor schema and runs locally in SageMaker (or anywhere with Redshift Data-API access).
 
 ## Table of Contents
-1 [Prerequisites] #
+1. [Prerequisites](#prerequisites)
+2. [Usage](#usage)
+    - [Run Full Pipeline](#run-full-pipeline)  
+    - [Run Raw Extraction Only](#run-raw-extraction-only)  
+    - [Format a Redshift CSV](#format-a-redshift-csv)  
+3. [Comparison Configs](#comparison-configs)  
+4. [Redshift Queries](#redshift-queries)  
+5. [Makefile](#makefile)
+
+## Prerequisites
+- Python 3.9+
+- Access to Redshift Data API and the appropriate SageMaker role (for FHIR extraction).
+- A list of subject IDs (`subject_ids.csv`).
+- YAML config defining comparison logic (see `configs/` folder).
+
+## Usage
+## Usage
+
+This pipeline uses a set of modular Python scripts, each handling a specific step of the extraction and comparison process:
+
+| Script                          | Purpose                                                                                          |
+|----------------------------------|--------------------------------------------------------------------------------------------------|
+| `scripts/run_sandbox.py`         | Pulls LLM-generated extractions from the sandbox Redshift table for a list of subject IDs. Optionally filtered by `--created` date. |
+| `scripts/run_prod.py`            | Queries production (FHIR) Redshift data for the same subjects using a SQL template and outputs mapped values. |
+| `scripts/run_compare.py`         | Performs field-by-field comparisons between sandbox and production data using a YAML config. Outputs side-by-side CSV + match summary. |
+| `scripts/format_raw_extractions.py` | Accepts a CSV exported from Redshift and formats it to match the expected sandbox schema (with one row per extraction value). |
