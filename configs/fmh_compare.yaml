@@ -1,0 +1,11 @@
+match_keys:
+  - subject_id
+  - document_id
+  - section_extraction_id
+
+fields:
+  condition: condition
+  relationship: relationship
+  age: age
+  absent_family_history: absent_family_history
+  negative_family_history: negative_family_history
