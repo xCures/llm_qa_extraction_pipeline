@@ -1,1 +1,13 @@
+match_keys:
+  - subject_id
+  - document_id
+  - section_extraction_id
 
+fields:
+  medication:          medication
+  start_date:          start_date
+  end_date:            end_date
+  indication:          indication
+  discontinuation_reason: discontinuation_reason
+  status: status
+  
