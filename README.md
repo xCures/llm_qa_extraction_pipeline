@@ -36,7 +36,7 @@ Comparison logic is defined in YAML config files, located in the `configs/` dire
 Each config file defines:
 - **labels**: List of field names to compare.
 - **normalizers** *(optional)*: Preprocessing functions like lowercasing, date standardization, etc.
-- **field mappings**: Aligns differently named fields in sandbox vs production (e.g., `effective_date_start` vs `effective_start_date`).
+- **field mappings**: Aligns differently named fields in sandbox vs production.
 - **matchers**: sandbox and production rows are compared using subject_id, document_id, and sandbox_extraction_id (i.e. the fingerprint id).
 
 You can use `scripts/generate_yaml_config.py` to create a YAML configuration file for comparing specific fields between the sandbox and production extractions. 
