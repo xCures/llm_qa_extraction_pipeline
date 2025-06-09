@@ -79,7 +79,7 @@ The `Makefile` provides these targets:
 `make prod \
   EXTRACTOR=diagnosis \
   SUBJECTS=subject_ids.csv \
-  CREATED=YYYY-MM-DD` #optional date filter`
+  CREATED=YYYY-MM-DD #optional date filter`
 
 ### Comparison
 `make compare \
