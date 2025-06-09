@@ -16,10 +16,10 @@ def assume_role(role_arn: str, session_name: str):
 def create_rs_client(creds: dict, region: str):
     return boto3.client(
         "redshift-data",
-        region_name      = region,
-        aws_access_key_id= creds["AccessKeyId"],
-        aws_secret_access_key=creds["SecretAccessKey"],
-        aws_session_token   =creds["SessionToken"],
+        region_name = region,
+        aws_access_key_id = creds["AccessKeyId"],
+        aws_secret_access_key = creds["SecretAccessKey"],
+        aws_session_token = creds["SessionToken"],
     )
 
 def run_query(client, workgroup, database, sql, is_serverless: bool = True):
@@ -64,16 +64,16 @@ def main():
     ap.add_argument("--created",  help ="YYYY-MM-DD → filter Created date")
     args = ap.parse_args()
 
-    region        = os.getenv("AWS_REGION", "us-west-2")
-    workgroup     = os.getenv("REDSHIFT_WORKGROUP")           
-    database      = os.getenv("REDSHIFT_DATABASE")       
-    role_arn      = os.getenv("REDSHIFT_ROLE_ARN")
-    session_name  = os.getenv("REDSHIFT_SESSION_NAME", "sandbox-query")
+    region = os.getenv("AWS_REGION", "us-west-2")
+    workgroup = os.getenv("REDSHIFT_WORKGROUP")           
+    database = os.getenv("REDSHIFT_DATABASE")       
+    role_arn = os.getenv("REDSHIFT_ROLE_ARN")
+    session_name = os.getenv("REDSHIFT_SESSION_NAME", "sandbox-query")
 
-    print(f"  Assuming role {role_arn} …")
-    creds   = assume_role(role_arn, session_name)
-    rs_cli  = create_rs_client(creds, region)
-    print(f"  Region={region}  Workgroup={workgroup}")
+    print(f"Assuming role {role_arn} …")
+    creds = assume_role(role_arn, session_name)
+    rs_cli = create_rs_client(creds, region)
+    print(f"Region={region}  Workgroup={workgroup}")
 
     # --- SQL SCRIPT----------------------------------------------------------------#
     ids = pd.read_csv(args.subject_csv)["subject_id"].dropna().unique()
@@ -90,8 +90,7 @@ def main():
       {date_filter}
     ORDER  BY created DESC
     """
-
-    print("  Running Redshift query …")
+    print(" Running Sandbox query ")
     raw_df = run_query(rs_cli, workgroup, database, sql, is_serverless=True)
 
     # --- FORMAT FIX -----------------------------------------------------------#
