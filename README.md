@@ -67,25 +67,25 @@ The `Makefile` provides these targets:
   EXTRACTOR=diagnosis \
   SUBJECTS=subject_ids.csv \
   CONFIG=configs/diagnosis_compare.yaml \
-  CREATED=YYYY-MM-DD #optional date filter`
+  CREATED=YYYY-MM-DD`
 
 ### Sandbox
 `make raw \
   EXTRACTOR=diagnosis \
   SUBJECTS=subject_ids.csv \
-  CREATED=YYYY-MM-DD #optional date filter`
+  CREATED=YYYY-MM-DD`
 
 ### Production
 `make prod \
   EXTRACTOR=diagnosis \
   SUBJECTS=subject_ids.csv \
-  CREATED=YYYY-MM-DD #optional date filter`
+  CREATED=YYYY-MM-DD`
 
 ### Comparison
 `make compare \
   EXTRACTOR=diagnosis \
   CONFIG=configs/diagnosis_compare.yaml \
-  CREATED=YYYY-MM-DD #optional date filter`
+  CREATED=YYYY-MM-DD`
 
 ### Clean
 `make clean \
