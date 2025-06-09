@@ -25,9 +25,9 @@ It supports any extractor schema and runs locally in SageMaker (or anywhere with
 ## Usage
 | Script                          | Purpose                                                                                          |
 |----------------------------------|--------------------------------------------------------------------------------------------------|
-| `scripts/run_sandbox.py`         | Pulls LLM-generated extractions from the sandbox Redshift table for a list of subject IDs. Optionally filtered by `--created` date. |
-| `scripts/run_prod.py`            | Queries production (FHIR) Redshift data for the same subjects using a SQL template and outputs mapped values. |
-| `scripts/run_compare.py`         | Performs field-by-field comparisons between sandbox and production data using a YAML config. Outputs side-by-side CSV + match summary. |
+| `scripts/run_sandbox.py`         | Pulls LLM-generated extractions from the sandbox Redshift table for a list of subject IDs. Optionally filtered by `--CREATED:` date. |
+| `scripts/run_prod.py`            | Queries production (FHIR) Redshift data for the same subjects using a SQL template and outputs mapped values. Optionally filtered by `--CREATED:` date. |
+| `scripts/run_compare.py`         | Performs field-by-field comparisons between sandbox and production data using a YAML config. Outputs side-by-side CSV + match summary. Optionally filtered by `--CREATED:` date. |
 | `scripts/format_raw_extractions.py` | Accepts a CSV exported from Redshift and formats it to match the expected sandbox schema (with one row per extraction value). |
 
 ## Comparison Configs
