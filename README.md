@@ -59,14 +59,14 @@ The `Makefile` provides these targets:
 - **run**: Full pipeline (sandbox → FHIR → compare)  
 - **raw**: Pull sandbox extractions only  
 - **prod**: Pull production (FHIR) values only  
-- **compare**: Compare sandbox vs production only  
+- **compare**: Compare sandbox vs production only
 - **clean**: Delete today’s output for an extractor  
 
 ### Full pipeline
 `make run \
-  EXTRACTOR=medication \
+  EXTRACTOR=diagnosis \
   SUBJECTS=subject_ids.csv \
-  CONFIG=configs/medication_compare.yaml \
+  CONFIG=configs/diagnosis_compare.yaml \
   CREATED=YYYY-MM-DD #optional date filter`
 
 ### Sandbox
@@ -86,5 +86,9 @@ The `Makefile` provides these targets:
   EXTRACTOR=diagnosis \
   CONFIG=configs/diagnosis_compare.yaml \
   CREATED=YYYY-MM-DD #optional date filter`
+
+### Clean
+`make clean \
+  EXTRACTOR = diagnosis`
 
 All outputs are saved under `output/YYYY-MM-DD/<extractor>/`
