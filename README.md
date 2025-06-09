@@ -26,13 +26,25 @@ It supports any extractor schema and runs locally in SageMaker (or anywhere with
 - YAML config defining comparison logic (see `configs/` folder).
 
 ## Usage
-## Usage
-
-This pipeline uses a set of modular Python scripts, each handling a specific step of the extraction and comparison process:
-
 | Script                          | Purpose                                                                                          |
 |----------------------------------|--------------------------------------------------------------------------------------------------|
 | `scripts/run_sandbox.py`         | Pulls LLM-generated extractions from the sandbox Redshift table for a list of subject IDs. Optionally filtered by `--created` date. |
 | `scripts/run_prod.py`            | Queries production (FHIR) Redshift data for the same subjects using a SQL template and outputs mapped values. |
 | `scripts/run_compare.py`         | Performs field-by-field comparisons between sandbox and production data using a YAML config. Outputs side-by-side CSV + match summary. |
 | `scripts/format_raw_extractions.py` | Accepts a CSV exported from Redshift and formats it to match the expected sandbox schema (with one row per extraction value). |
+
+## Comparison Configs
+Comparison logic is defined in YAML config files, located in the `configs/` directory. These configs specify which fields to compare between the sandbox extractions and production (FHIR) mappings.
+
+Each config file defines:
+- **labels**: List of field names to compare.
+- **normalizers** *(optional)*: Preprocessing functions like lowercasing, date standardization, etc.
+- **field mappings**: Aligns differently named fields in sandbox vs production (e.g., `effective_date_start` vs `effective_start_date`).
+- **matchers**: sandbox and production rows are compared using subject_id, document_id, and sandbox_extraction_id (i.e. the fingerprint id).
+
+You can use `scripts/generate_yaml_config.py` to create a YAML configuration file for comparing specific fields between the sandbox and production extractions. 
+
+Usage:
+`python3 scripts/generate_yaml_config.py \
+  --output configs/payer_compare.yaml \
+  --fields payer_name plan_name group_number subscriber_id`
