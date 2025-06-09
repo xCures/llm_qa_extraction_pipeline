@@ -21,6 +21,7 @@ It supports any extractor schema and runs locally in SageMaker (or anywhere with
 - Access to Redshift Data API and the appropriate SageMaker role (for FHIR extraction).
 - A list of subject IDs (`subject_ids.csv`).
 - YAML config defining comparison logic (see `configs/` folder).
+- A `.env` file in the project root with your Redshift Data API credentials and permissions
 
 ## Usage
 | Script                          | Purpose                                                                                          |
