@@ -12,9 +12,6 @@ It supports any extractor schema and runs locally in SageMaker (or anywhere with
 ## Table of Contents
 1. [Prerequisites](#prerequisites)
 2. [Usage](#usage)
-    - [Run Full Pipeline](#run-full-pipeline)  
-    - [Run Raw Extraction Only](#run-raw-extraction-only)  
-    - [Format a Redshift CSV](#format-a-redshift-csv)  
 3. [Comparison Configs](#comparison-configs)  
 4. [Redshift Queries](#redshift-queries)  
 5. [Makefile](#makefile)
