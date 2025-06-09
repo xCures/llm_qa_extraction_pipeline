@@ -2,9 +2,9 @@
 Workflow that pulls sandbox LLM clinical extractions, retrieves downstream FHIR mappings, and produces side-by-side QA reports to measure comparisons
 
 # Process
-1. **Pull sandbox data** from the sandbox for a set of subjects.
-2. **Pull production (FHIR) data** for the same subjects.  
-3. **Compares** field-by-field with a YAML mapping.  
+1. Pull sandbox data from the sandbox for a set of subjects.
+2. Pull production (FHIR) data for the same subjects.  
+3. Compares field-by-field with a YAML mapping.  
 4. Write a side-by-side CSV + per-field match summary.
 
 It supports any extractor schema and runs locally in SageMaker (or anywhere with Redshift Data-API access).
@@ -45,3 +45,46 @@ Usage:
 `python3 scripts/generate_yaml_config.py \
   --output configs/payer_compare.yaml \
   --fields payer_name plan_name group_number subscriber_id`
+
+## Redshift Queries
+The pipeline expects a production Redshift query to retrieve FHIR-mapped values for comparison. These queries live in: `queries/prod_extractions/{extractor_name}_prod_extractions.sql`. Each query should include:
+
+- Placeholder for subject_ids: `WHERE subject_id IN ({{SUBJECT_IDS}})`
+- Fingerprint Unnesting: `SPLIT_PART(m.meta.source::text, ':', 9) AS section_extraction_id`
+- Any relevant fields to have the same name as what is in the sandbox extractions
+
+## Makefile Usage
+The `Makefile` provides these targets:
+
+- **run**: Full pipeline (sandbox → FHIR → compare)  
+- **raw**: Pull sandbox extractions only  
+- **prod**: Pull production (FHIR) values only  
+- **compare**: Compare sandbox vs production only  
+- **clean**: Delete today’s output for an extractor  
+
+### Full pipeline
+`make run \
+  EXTRACTOR=medication \
+  SUBJECTS=subject_ids.csv \
+  CONFIG=configs/medication_compare.yaml
+  CREATED=YYYY-MM-DD` # ← optional date filter
+
+### Sandbox
+`make raw \
+  EXTRACTOR=diagnosis \
+  SUBJECTS=subject_ids.csv
+  CREATED=YYYY-MM-DD` # ← optional date filter
+
+### Production
+`make prod \
+  EXTRACTOR=diagnosis \
+  SUBJECTS=subject_ids.csv
+  CREATED=YYYY-MM-DD` # ← optional date filter
+
+### Comparison
+`make compare \
+  EXTRACTOR=diagnosis \
+  CONFIG=configs/diagnosis_compare.yaml
+  CREATED=YYYY-MM-DD` # ← optional date filter
+
+All outputs are saved under `output/YYYY-MM-DD/<extractor>/`
