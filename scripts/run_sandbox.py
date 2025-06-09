@@ -104,7 +104,6 @@ def main():
     meta = raw_df[meta_cols].reset_index().rename(columns={"index": "__row_id"})
     final = expanded.merge(meta, on="__row_id", how="left").drop(columns="__row_id")
 
-    # reorder
     front = meta_cols
     final = final[front + [c for c in final.columns if c not in front]]
 
@@ -117,7 +116,7 @@ def main():
     else:
         out_path = f"{out_dir}/raw_extractions.csv"
         final.to_csv(out_path, index=False)
-        print(f" saved → {out_path}")
+        print(f" saved to {out_path}")
 
 if __name__ == "__main__":
     main()
