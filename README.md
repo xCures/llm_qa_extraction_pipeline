@@ -92,3 +92,4 @@ The `Makefile` provides these targets:
   EXTRACTOR = diagnosis`
 
 All outputs are saved under `output/YYYY-MM-DD/<extractor>/`
+*Note: the `YYYY-MM-DD` folder reflects the date you run the script, which may differ from the query date—so aim to execute extraction and comparison on the same day for consistency.*
