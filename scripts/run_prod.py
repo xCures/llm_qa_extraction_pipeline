@@ -14,10 +14,10 @@ def assume_role(role_arn: str, session_name: str):
 def create_rs_client(creds: dict, region: str):
     return boto3.client(
         "redshift-data",
-        region_name      = region,
-        aws_access_key_id= creds["AccessKeyId"],
-        aws_secret_access_key=creds["SecretAccessKey"],
-        aws_session_token   =creds["SessionToken"],
+        region_name = region,
+        aws_access_key_id = creds["AccessKeyId"],
+        aws_secret_access_key = creds["SecretAccessKey"],
+        aws_session_token = creds["SessionToken"],
     )
 
 def run_query(client, workgroup, database, sql, is_serverless: bool = True):
@@ -46,7 +46,7 @@ def run_query(client, workgroup, database, sql, is_serverless: bool = True):
     return pd.DataFrame(rows, columns=cols)
 
 # ------------- main logic ----------------------------------------------------
-load_dotenv()  # read .env alongside AWS creds chain
+load_dotenv()
 
 def main():
     ap = argparse.ArgumentParser()
@@ -57,32 +57,32 @@ def main():
     args = ap.parse_args()
 
     # -- LOAD env ------------------------------------------------------------------
-    region       = os.getenv("AWS_REGION", "us-west-2")
-    workgroup    = os.getenv("REDSHIFT_WORKGROUP")          # set in .env file
-    database     = os.getenv("REDSHIFT_DATABASE")           # set in .env file
-    role_arn     = os.getenv("REDSHIFT_ROLE_ARN")
+    region = os.getenv("AWS_REGION", "us-west-2")
+    workgroup = os.getenv("REDSHIFT_WORKGROUP")          # set in .env file
+    database = os.getenv("REDSHIFT_DATABASE")           # set in .env file
+    role_arn = os.getenv("REDSHIFT_ROLE_ARN")
     session_name = os.getenv("REDSHIFT_SESSION_NAME", "fhir-query")
 
     creds  = assume_role(role_arn, session_name)
     rs_cli = create_rs_client(creds, region)
 
     # -- build IN list ----------------------------------------------------
-    ids       = pd.read_csv(args.subject_csv)["subject_id"].dropna().unique()
+    ids = pd.read_csv(args.subject_csv)["subject_id"].dropna().unique()
     id_clause = ",".join(f"'{i}'" for i in ids)
 
     sql = open(args.query_file).read().replace("{{SUBJECT_IDS}}", id_clause)
 
-    print("  Running Redshift FHIR query …")
+    print(" Running prod query ")
     df = run_query(rs_cli, workgroup, database, sql, is_serverless=True)
 
     # -- output & save -----------------------------------------------------------------
     date_str = datetime.today().strftime("%Y-%m-%d")
-    out_dir  = f"output/{date_str}/{args.extractor}"
+    out_dir = f"output/{date_str}/{args.extractor}"
     os.makedirs(out_dir, exist_ok=True)
 
     out_path = f"{out_dir}/prod_extractions.csv"
     df.to_csv(out_path, index=False)
-    print(f"  Saved → {out_path}")
+    print(f"  Saved to {out_path}")
 
 if __name__ == "__main__":
     main()
