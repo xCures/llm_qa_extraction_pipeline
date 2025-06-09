@@ -17,7 +17,6 @@ It supports any extractor schema and runs locally in SageMaker (or anywhere with
 5. [Makefile](#makefile)
 
 ## Prerequisites
-- Python 3.9+
 - Access to Redshift Data API and the appropriate SageMaker role (for FHIR extraction).
 - A list of subject IDs (`subject_ids.csv`).
 - YAML config defining comparison logic (see `configs/` folder).
